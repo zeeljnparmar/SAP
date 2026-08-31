@@ -1,0 +1,45 @@
+import { ClientGrpc } from "@nestjs/microservices";
+import { DataSource, EntityManager } from 'typeorm';
+import { Metadata } from "@grpc/grpc-js";
+import { evalDto, MetaData } from "../../dtos/new.new.sku.dto";
+import { CommonService } from "../common/common.service";
+import { Cache } from 'cache-manager';
+export declare class BusinessRuleService {
+    private pdmDataSource;
+    private pdmReaderDataSource;
+    private cacheManager;
+    private readonly commonService;
+    private bussinessRuleService;
+    private attributeService;
+    private businessDataModelService;
+    attributeClient: ClientGrpc;
+    businessRuleClient: ClientGrpc;
+    categoryClient: ClientGrpc;
+    private categoryService;
+    constructor(pdmDataSource: DataSource, pdmReaderDataSource: DataSource, cacheManager: Cache, commonService: CommonService);
+    onModuleInit(): void;
+    getPricingRuleEvaluation(request: any, metaData: any): Promise<any>;
+    getRuleForCategory(request: any, metaData: MetaData): Promise<any>;
+    getDependentTarget(request: any, metaData: MetaData): Promise<any>;
+    getReferenceData(request: any, metaData: MetaData): Promise<any>;
+    evaluateRuleGrpc(request: any, metaData: MetaData): Promise<any>;
+    getAttributesByCategory(categoryId: number, langCode: string, metaData: MetaData): Promise<any>;
+    rules(categoryId: number, pdmId: number, metaData: MetaData, lang_code: string, target_only: boolean, rule_type: string, pricing?: boolean, pdmInfo?: any, channel_id?: any, location_id?: any, validationData?: any, entityManager?: EntityManager, fromSAP?: boolean): Promise<any>;
+    evaluateRule(categoryId: number, pdmId: number, metaData: MetaData, rules: any, lang_code: any, rule_type: any, pdmInfo: any, channel_id: any, target_attributes: any, entityManager: EntityManager, pricing?: boolean, validationData?: any, fromSAP?: boolean): Promise<void>;
+    evaluateSingleRule(categoryId: number, pdmId: number, metaData: MetaData, rule: any, lang_code: any, rule_type: any, pdmInfo: any, rules: any, channel_id: any, target_attributes: any, entityManager: EntityManager, pricing?: boolean, validationData?: any, fromSAP?: boolean): Promise<void>;
+    evaluation(categoryId: number, pdmId: number, metaData: MetaData, rule: any, lang_code: any, rule_type: any, channel_id: any, pdmInfo: any, entityManager: EntityManager, pricing?: boolean, validationData?: any, fromSAP?: boolean): Promise<any>;
+    saveEvaluatedData(categoryId: number, pdmId: number, metaData: MetaData, values: any, rule_type: string, entityManager: EntityManager, fromSAP: boolean): Promise<void>;
+    saveFalseData(message: string, entityManager: EntityManager): Promise<any>;
+    findRule(attribute: any, rules: any): Promise<any>;
+    checkForAttrIsEmptyOrNot(rule: any, facts: any): boolean;
+    parsePdmInfo(category_id: number, pdm_id: number, rule_type: string, completesavevalue: any, ruleResult: boolean, pdmInfo: any, pricing: boolean, user?: any, ruleId?: string): Promise<void>;
+    findFactData2(rule: any, pdmInfo: any, lang_code: any, MetaData: MetaData): Promise<evalDto>;
+    findFactData(rule: any, pdmInfo: any, lang_code: any, MetaData: MetaData, pricing: boolean, validationData: any): Promise<evalDto>;
+    addMetadata(metaData: MetaData): Promise<Metadata>;
+    responseObject(status: string, message: string, data: any): Promise<{
+        status: string;
+        message: string;
+        data: any;
+    }>;
+    getcolumnvalue(categoryId: number, pdmId: number, metaData: MetaData): Promise<any>;
+}
